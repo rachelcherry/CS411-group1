@@ -3,8 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
 
+
 db = SQLAlchemy()
-DB_NAME = "database.db"
+DB_NAME = "dpipatabase.db"
 
 
 def create_app():
@@ -13,7 +14,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
 
-    from .views import views
+    from .views import viewspip
     from .auth import auth
 
     app.register_blueprint(views, url_prefix='/')
