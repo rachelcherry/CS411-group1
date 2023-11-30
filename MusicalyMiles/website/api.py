@@ -1,20 +1,44 @@
 from flask import Blueprint, jsonify, request
-from .models import YourModel  # import database models
-from . import db  # import database instance
+"""from .models import YourModel  # import database models"""
+from . import database  # import database instance
+import requests
+from config import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
 
 api = Blueprint('api', __name__)
 
-@api.route('/get-something', methods=['GET'])
-def get_something():
-    # Logic to fetch and return some data
-    data = "some data"  # replace with real data fetching logic
-    return jsonify(data)
+# Spotify API Constants and Functions
+SPOTIFY_API_BASE_URL = "https://api.spotify.com/v1"
 
-@api.route('/post-something', methods=['POST'])
-def post_something():
-    # Logic to handle data posted to this route
-    data = request.json  # or request.form for form data
-    # process data
-    return jsonify({"message": "Data received and processed"})
+def get_spotify_access_token(client_id, client_secret):
+    url = "https://accounts.spotify.com/api/token"
+    headers = {
+        "Content-Type: application/x-www-form-urlencoded"
+    }
+    data = {
+        "grant_type": "client_credentials",
+        "client_id": client_id,
+        "client_secret": client_secret
+    }
 
-# Additional routes as needed
+    response = requests.post(url, headers = headers, data = data)
+    if response.status_code == 200:
+        return response.json().get["access_token"]
+    return None
+
+# fetch data from Spotify using the access token
+def fetch_spotify_data(endpoint, token):
+    url = f"https://api.spotify.com/v1/{endpoint}"
+    headers = {"Authorization": f"Bearer {token}"}
+    response = requests.get(url, headers=headers)
+    return response
+
+@api.route('/spotify-data/<endpoint>')
+def spotify_data(endpoint):
+    access_token = get_spotify_access_token(SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET)
+    if access_token:
+        response = fetch_spotify_data(endpoint, access_token)
+        if response.status_code == 200:
+            return jsonify(response.json())
+        return jsonify({"error": "Failed to fetch data from Spotify"}), response.status_code
+    else:
+        return jsonify({"error": "Failed to get Spotify access token"}), 500
