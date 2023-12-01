@@ -30,7 +30,7 @@
     <script>
       document.getElementById('spotify-login').onclick = function () {
         // Replace with your actual Spotify authorization URL
-        window.location.href = 'https://accounts.spotify.com/authorize?client_id=SPOTIFY_API&response_type=code&redirect_uri=http://127.0.0.1:5000&scope=user-read-private%20playlist-read-private%20user-read-email';
+        window.location.href = 'https://accounts.spotify.com/authorize?client_id='+SPOTIFY_CLIENT_ID+'&response_type=code&redirect_uri=http://127.0.0.1:5000&scope=user-read-private%20playlist-read-private%20user-read-email';
       };
     </script>
     {% endblock %}
