@@ -1,0 +1,60 @@
+def get_singer_by_state(state):
+    singers_by_state = {
+        'Alabama': 'Lionel Richie',
+        'Alaska': 'Jewel',
+        'Arizona': 'Linda Ronstadt',
+        'Arkansas': 'Johnny Cash',
+        'California': 'Beyoncé',
+        'Colorado': 'John Denver',
+        'Connecticut': 'Moby',
+        'Delaware': 'George Thorogood',
+        'Florida': 'Ariana Grande',
+        'Georgia': 'Ray Charles',
+        'Hawaii': 'Bruno Mars',
+        'Idaho': 'Paul Revere',
+        'Illinois': 'Kanye West',
+        'Indiana': 'Michael Jackson',
+        'Iowa': 'Slipknot',
+        'Kansas': 'Martina McBride',
+        'Kentucky': 'Loretta Lynn',
+        'Louisiana': 'Louis Armstrong',
+        'Maine': 'Howie Day',
+        'Maryland': 'Billie Holiday',
+        'Massachusetts': 'Aerosmith',
+        'Michigan': 'Stevie Wonder',
+        'Minnesota': 'Prince',
+        'Mississippi': 'Elvis Presley',
+        'Missouri': 'Chuck Berry',
+        'Montana': 'Jeff Ament',
+        'Nebraska': 'Conor Oberst',
+        'Nevada': 'Brandon Flowers',
+        'New Hampshire': 'Ray LaMontagne',
+        'New Jersey': 'Whitney Houston',
+        'New Mexico': 'Demi Lovato',
+        'New York': 'Billy Joel',
+        'North Carolina': 'Nina Simone',
+        'North Dakota': 'Peggy Lee',
+        'Ohio': 'John Legend',
+        'Oklahoma': 'Garth Brooks',
+        'Oregon': 'Elliott Smith',
+        'Pennsylvania': 'Taylor Swift',
+        'Rhode Island': 'Nelson Eddy',
+        'South Carolina': 'James Brown',
+        'South Dakota': 'Shawn Colvin',
+        'Tennessee': 'Dolly Parton',
+        'Texas': 'Willie Nelson',
+        'Utah': 'David Archuleta',
+        'Vermont': 'Grace Potter',
+        'Virginia': 'Missy Elliott',
+        'Washington': 'Jimi Hendrix',
+        'West Virginia': 'Brad Paisley',
+        'Wisconsin': 'Les Paul',
+        'Wyoming': 'Chris LeDoux'
+    }
+
+    return singers_by_state.get(state, 'Singer not found for this state')
+
+# Example usage:
+state = 'California'
+singer = get_singer_by_state(state)
+print(f"The singer from {state} is {singer}")
