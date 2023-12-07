@@ -25,12 +25,12 @@
       <br />
       <button type="submit" class="btn btn-primary">Login</button>
       <!-- Spotify OAuth button -->
-      <button type="button" class="btn btn-secondary" id="spotify-login">Login with Spotify</button>
+      <button type="button" class="btn btn-secondary" id="spotify-login" data-client-id="{{ SPOTIFY_CLIENT_ID }}">Login with Spotify</button>
     </form>
     <script>
       document.getElementById('spotify-login').onclick = function () {
-        // Replace with your actual Spotify authorization URL
-        window.location.href = 'https://accounts.spotify.com/authorize?client_id='+SPOTIFY_CLIENT_ID+'&response_type=code&redirect_uri=http://127.0.0.1:5000&scope=user-read-private%20playlist-read-private%20user-read-email';
+        var clientId = this.getAttribute('data-client-id');
+        window.location.href = 'https://accounts.spotify.com/authorize?client_id=' + clientId + '&response_type=code&redirect_uri=http://127.0.0.1:5000';
       };
     </script>
     {% endblock %}
