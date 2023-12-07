@@ -23,28 +23,28 @@ def get_singer_by_state(state):
         'Hawaii'.casefold(): '37i9dQZF1DZ06evO03DwPK',
         'Idaho': '37i9dQZF1DZ06evO1L4rwW', #Paul Revere
         'Idaho'.casefold(): '37i9dQZF1DZ06evO1L4rwW',
-        'Illinois': 'Kanye West', #Kanye West
-        'Illinois'.casefold(): 'Kanye West',
-        'Indiana': 'Michael Jackson', #Michael Jackson
-        'Indiana'.casefold(): 'Michael Jackson',
-        'Iowa': 'Slipknot', #Slipknot
-        'Iowa'.casefold(): 'Slipknot',
-        'Kansas': 'Martina McBride', #Martina McBride
-        'Kansas'.casefold(): 'Martina McBride',
-        'Kentucky': 'Loretta Lynn', #Loretta Lynn
-        'Kentucky'.casefold: 'Loretta Lynn',
-        'Louisiana': 'Louis Armstrong', #Louis Armstrong
-        'Louisiana'.casefold(): 'Louis Armstrong',
-        'Maine': 'Howie Day', #Howie Day
-         'Maine'.casefold(): 'Howie Day',
-        'Maryland': 'Billie Holiday', #Billie Holiday
-        'Maryland'.casefold(): 'Billie Holiday',
-        'Massachusetts': 'Aerosmith', #Aerosmith
-        'Massachusetts'.casefold(): 'Aerosmith',
-        'Michigan': 'Stevie Wonder', #Stevie Wonder
-        'Michigan'.casefold(): 'Stevie Wonder',
-        'Minnesota': 'Prince', #Prince
-        'Minnesota'.casefold(): 'Prince',
+        'Illinois': '37i9dQZF1DZ06evO3nMr04', #Kanye West
+        'Illinois'.casefold(): '37i9dQZF1DZ06evO3nMr04',
+        'Indiana': '37i9dQZF1DZ06evO1SVXaM', #Michael Jackson
+        'Indiana'.casefold(): '37i9dQZF1DZ06evO1SVXaM',
+        'Iowa': '37i9dQZF1DZ06evNZYGncI', #Slipknot
+        'Iowa'.casefold(): '37i9dQZF1DZ06evNZYGncI',
+        'Kansas': '37i9dQZF1DZ06evO2e9Kc8', #Martina McBride
+        'Kansas'.casefold(): '37i9dQZF1DZ06evO2e9Kc8',
+        'Kentucky': '37i9dQZF1DZ06evO0VT8cA', #Loretta Lynn
+        'Kentucky'.casefold: '37i9dQZF1DZ06evO0VT8cA',
+        'Louisiana': '37i9dQZF1DZ06evO0Co11u', #Louis Armstrong
+        'Louisiana'.casefold(): '37i9dQZF1DZ06evO0Co11u',
+        'Maine': '37i9dQZF1DZ06evO048Spq', #Howie Day
+         'Maine'.casefold(): '37i9dQZF1DZ06evO048Spq',
+        'Maryland': '37i9dQZF1DZ06evO17hgFa', #Billie Holiday
+        'Maryland'.casefold(): '37i9dQZF1DZ06evO17hgFa',
+        'Massachusetts': '37i9dQZF1DZ06evO4x3X2w', #Aerosmith
+        'Massachusetts'.casefold(): '37i9dQZF1DZ06evO4x3X2w',
+        'Michigan': '37i9dQZF1DZ06evO4iAGsg', #Stevie Wonder
+        'Michigan'.casefold(): '37i9dQZF1DZ06evO4iAGsg',
+        'Minnesota': '37i9dQZF1DZ06evO3262Tm', #Prince
+        'Minnesota'.casefold(): '37i9dQZF1DZ06evO3262Tm',
         'Mississippi': 'Elvis Presley', #Elvis Presley
         'Mississippi'.casefold(): 'Elvis Presley',
         'Missouri': 'Chuck Berry', #Chuck Berry
