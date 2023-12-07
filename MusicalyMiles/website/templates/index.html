@@ -39,7 +39,10 @@
           </div>
         </div>
       </nav>
-      <select id="states">
+  
+    <form action="/playlist" method="POST">
+      <select name="state">
+        <!-- Options for states -->
         <option value="">Select a state</option>
         <option value="Alabama">Alabama</option>
         <option value="Alaska">Alaska</option>
@@ -91,7 +94,9 @@
         <option value="West Virginia">West Virginia</option>
         <option value="Wisconsin">Wisconsin</option>
         <option value="Wyoming">Wyoming</option>
-    </select>    
+      </select>
+      <input type="submit" value="Submit">
+    </form>
       {% with messages = get_flashed_messages(with_categories=true) %} {% if
         messages %} {% for category, message in messages %} {% if category ==
         'error' %}

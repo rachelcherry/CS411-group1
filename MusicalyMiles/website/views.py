@@ -1,11 +1,15 @@
-from flask import Blueprint, render_template, Flask
+from flask import Blueprint, render_template, Flask, request, session, redirect
 from flask_login import login_required, current_user
 from .config import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
+from .singers import get_singer_by_state
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+import requests
 
 views = Blueprint('views', __name__)
 
 @views.route('/')
-@login_required
+#@login_required
 def home():
     return render_template("index.html", user=current_user, spotify_api_key=SPOTIFY_CLIENT_ID)
 
@@ -33,3 +37,17 @@ def callback():
     session['access_token'] = access_token
     # Redirect the user to the index page
     return redirect('/')
+
+@views.route('/playlist', methods=['POST'])
+def playlist():
+    state = request.form.get('state')
+    spotify_id = get_singer_by_state(state)
+    print('state', state)
+    print('spotify_id', spotify_id)
+
+    client_credentials_manager = SpotifyClientCredentials(client_id=SPOTIFY_CLIENT_ID, client_secret=SPOTIFY_CLIENT_SECRET)
+    sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
+    playlist = sp.playlist(spotify_id)
+
+    return render_template('playlist.html', playlist=playlist)
