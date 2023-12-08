@@ -27,11 +27,8 @@
       </div>
     </nav>
   
-    <div class="container mt-4">
-      <h2>Select Your State</h2>
-      <form action="/playlist" method="POST" class="form-inline">
-        <label for="state" class="mr-sm-2">State:</label>
-        <select name="state" id="state" class="custom-select mr-sm-2">
+    <form action="/playlist" method="POST">
+      <select name="state">
         <!-- Options for states -->
         <option value="">Select a state</option>
         <option value="Alabama">Alabama</option>
@@ -85,21 +82,25 @@
         <option value="Wisconsin">Wisconsin</option>
         <option value="Wyoming">Wyoming</option>
       </select>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <input type="submit" value="Submit">
     </form>
-      {% with messages = get_flashed_messages(with_categories=true) %} 
-      {% if messages %} 
-      {% for category, message in messages %} 
-      <div class="alert alert-{{ category }} alert-dismissible fade show mt-3" role="alert">
-        {{ message }}
-        <button type="button" class="close" data-dismiss="alert">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      {% endfor %} 
-      {% endif %} 
-      {% endwith %}
-    </div>
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %} {% if category ==
+        'error' %}
+        <div class="alert alert-danger alter-dismissable fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% else %}
+        <div class="alert alert-success alter-dismissable fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endif %} {% endfor %} {% endif %} {% endwith %}
 
     <div class="container">{% block content %} 
         
