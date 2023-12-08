@@ -42,12 +42,10 @@ def callback():
 def playlist():
     state = request.form.get('state')
     spotify_id = get_singer_by_state(state)
-    print('state', state)
-    print('spotify_id', spotify_id)
 
     client_credentials_manager = SpotifyClientCredentials(client_id=SPOTIFY_CLIENT_ID, client_secret=SPOTIFY_CLIENT_SECRET)
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
     playlist = sp.playlist(spotify_id)
 
-    return render_template('playlist.html', playlist=playlist)
+    return render_template('playlist.html', state=state, playlist=playlist)
