@@ -1,6 +1,6 @@
 import requests
 import cgi
-from config import GOOGLE_CLIENT_KEY
+from MusicalyMiles.website.config import GOOGLE_CLIENT_KEY
 
 def get_directions(api_key, origin, destination):
     base_url = "https://maps.googleapis.com/maps/api/directions/json"

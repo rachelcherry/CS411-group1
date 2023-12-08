@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify
 """from .models import YourModel  # import database models"""
 
 from flask import request
-from config import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
+from MusicalyMiles.website.config import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
 from singers import get_singer_by_state
 
 api = Blueprint('api', __name__)
