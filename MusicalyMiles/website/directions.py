@@ -1,5 +1,6 @@
 import requests
 import cgi
+from config import GOOGLE_CLIENT_KEY
 
 def get_directions(api_key, origin, destination):
     base_url = "https://maps.googleapis.com/maps/api/directions/json"
@@ -30,10 +31,9 @@ def get_directions(api_key, origin, destination):
         print(f"An error occurred: {e}")
 
 # Replace 'YOUR_API_KEY' with your actual Google Maps API key
-api_key = ""
-
+api_key = GOOGLE_CLIENT_KEY
 form = cgi.FieldStorage()
-start_address =  form.getvalue('start')
+start_address = form.getvalue('start')
 end_address = form.getvalue('end')
 
 get_directions(api_key, start_address, end_address)
