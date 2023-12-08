@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import request
 from os import path
 from flask_login import LoginManager
+from flask import render_template
 
 
 db = SQLAlchemy()
