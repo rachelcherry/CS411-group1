@@ -9,9 +9,9 @@ import requests
 views = Blueprint('views', __name__)
 
 @views.route('/')
-@login_required  # Add this decorator
+#@login_required
 def home():
-    return render_template("index.html", user=current_user)
+    return render_template("index.html", user=current_user, spotify_api_key=SPOTIFY_CLIENT_ID)
 
 @views.route('/login')
 def login():
