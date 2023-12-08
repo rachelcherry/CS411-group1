@@ -9,7 +9,7 @@ body {
 /* Header styles */
 header {
     background-color: #333;
-    color: #fff;
+    color: #ed6ea0;
     text-align: center;
     padding: 20px 0;
 }
@@ -65,4 +65,42 @@ footer {
     padding: 10px 0;
     background-color: #333;
     color: #fff;
+}
+
+select[name="state"] {
+    display: block;
+    font-size: 16px;
+    font-family: sans-serif;
+    font-weight: 700;
+    color: #444;
+    line-height: 1.3;
+    padding: .6em 1.4em .5em .8em;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    border: 1px solid #aaa;
+    box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+    border-radius: .5em;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    background-image: linear-gradient(to right, #ed6ea0 0%, #ec8c69 100%);
+    color: white;
+}
+
+select[name="state"]::-ms-expand {
+    display: none;
+}
+
+select[name="state"]:hover,
+select[name="state"]:focus {
+    color: #222;
+    border-color: #888;
+}
+
+select[name="state"]:disabled {
+    opacity: .5;
+    pointer-events: none;
 }

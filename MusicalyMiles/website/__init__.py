@@ -10,7 +10,7 @@ DB_NAME = "dpipatabase.db"
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='static')
     app.config['SECRET_KEY'] = '123456789'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
