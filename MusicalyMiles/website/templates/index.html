@@ -887,13 +887,50 @@
         font-size: 1.2rem;
       }
     }
+    .state-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 2rem;
+    }
+    
+    .state-select, .submit-btn {
+        padding: 0.5rem 1rem;
+        margin: 0.5rem 0;
+        border-radius: 0.5rem;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .state-select {
+        background-color: #ed6ea0; /* Gradient start color */
+        color: white;
+    }
+    
+    .state-select:hover, .state-select:focus {
+        background-color: #ec8c69; /* Gradient end color */
+    }
+    
+    .submit-btn {
+        background-color: #fff;
+        color: #ed6ea0; /* Gradient start color */
+        cursor: pointer;
+    }
+    
+    .submit-btn:hover {
+        background-color: #ed6ea0; /* Gradient start color */
+        color: white;
+    }
+  
   </style>
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" />
-        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" /> <!-- Ensure this points to your compiled CSS -->
         <title>{% block title %}Home{% endblock %}</title>
       </head>
       <body>
@@ -914,8 +951,8 @@
             </ol>
         </nav>
   
-    <form action="/playlist" method="POST">
-      <select name="state">
+  <form action="/playlist" method="POST" class="state-form">
+    <select name="state" class="state-select">
         <!-- Options for states -->
         <option value="">Select a state</option>
         <option value="Alabama">Alabama</option>
@@ -968,9 +1005,12 @@
         <option value="West Virginia">West Virginia</option>
         <option value="Wisconsin">Wisconsin</option>
         <option value="Wyoming">Wyoming</option>
-      </select>
-      <input type="submit" value="Submit">
-    </form>
+    </div>
+  </div>
+  <input type="hidden" name="state" id="selectedState">
+  <input type="submit" value="Submit" class="submit-btn">
+</form>
+
       {% with messages = get_flashed_messages(with_categories=true) %} {% if
         messages %} {% for category, message in messages %} {% if category ==
         'error' %}
