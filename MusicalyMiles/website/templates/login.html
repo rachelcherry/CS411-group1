@@ -1,67 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Musically Miles Login</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #fff;
-            text-align: center;
-            padding: 50px;
-        }
-        .login-container {
-            margin: auto;
-            width: 300px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        .login-container h2 {
-            color: #000;
-        }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .login-button {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            background-color: #0044cc;
-            color: white;
-            cursor: pointer;
-        }
-        .login-footer {
-            font-size: 0.8em;
-            margin-top: 20px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <title>Login - Musically Miles</title>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Musically Miles Login</h2>
-        <form>
-            <input type="text" placeholder="MM login name" name="login">
-            <input type="password" placeholder="Password" name="password">
-            <button type="submit" class="login-button">Continue</button>
-            <button type="button" id="spotify-login" data-client-id="{{ SPOTIFY_CLIENT_ID }}" style="background-color: #1DB954; color: white; width: 100%; padding: 10px; border: none; border-radius: 4px; margin-top: 10px; cursor: pointer;">Login with Spotify</button>
+    <nav class="container-fluid">
+      <ul>
+        <li><strong>Musically Miles</strong></li>
+      </ul>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="sign_up.html" role="button">Sign Up</a></li>
+      </ul>
+    </nav>
+    <main class="container">
+        <div class="grid">
+            <section>
+                <hgroup>
+                    <h2>Welcome to Musically Miles</h2>
+                    <h3>Login to Your Account</h3>
+                </hgroup>
+                <form method="POST">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    <button type="submit" class="primary">Login</button>
+                </form>
+                <button type="button" id="spotify-login" data-client-id="{{ SPOTIFY_CLIENT_ID }}" style="background-color: #1DB954; color: white; border: none; cursor: pointer;">Login with Spotify</button>
 
-            <script>
-              document.getElementById('spotify-login').onclick = function () {
-                var clientId = this.getAttribute('data-client-id');
-                window.location.href = 'https://accounts.spotify.com/authorize?client_id=' + clientId + '&response_type=code&redirect_uri=http://127.0.0.1:5000/callback';
-              };
-            </script>
-        </form>
-        <div class="login-footer">
-            <p>You have asked to login to Musically Miles</p>
-            <p>Use of Musically Miles Computing Facilities is governed by our Acceptable Use Policy.</p>
+                <script>
+                  document.getElementById('spotify-login').onclick = function () {
+                    var clientId = this.getAttribute('data-client-id');
+                    window.location.href = 'https://accounts.spotify.com/authorize?client_id=' + clientId + '&response_type=code&redirect_uri=http://127.0.0.1:5000/callback';
+                  };
+                </script>
+            </section>
         </div>
-    </div>
-</body>
-</html>
+    </main>
+    <footer class="container">
+      <small>&copy; 2023 Musically Miles. All rights reserved.</small>
+    </footer>
+    </body>
+    </html>

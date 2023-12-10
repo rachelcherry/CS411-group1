@@ -1,50 +1,46 @@
-{% extends "base.html" %}{% block title %}
-{% endblock %}
-
-{% block content%}
-<form method="POST">
-    <h3 align="center">Sign Up</h3>
-    <div class="form-group">
-      <label for="email">Email Address</label>
-      <input
-        type="email"
-        class="form-control"
-        id="email"
-        name="email"
-        placeholder="Enter email"
-      />
-    </div>
-    <div class="form-group">
-      <label for="firstName">First Name</label>
-      <input
-        type="text"
-        class="form-control"
-        id="firstName"
-        name="firstName"
-        placeholder="Enter first name"
-      />
-    </div>
-    <div class="form-group">
-      <label for="password1">Password</label>
-      <input
-        type="password"
-        class="form-control"
-        id="password1"
-        name="password1"
-        placeholder="Enter password"
-      />
-    </div>
-    <div class="form-group">
-      <label for="password2">Password (Confirm)</label>
-      <input
-        type="password"
-        class="form-control"
-        id="password2"
-        name="password2"
-        placeholder="Confirm password"
-      />
-    </div>
-    <br />
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-  {% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <title>Sign Up</title>
+</head>
+<body>
+    <nav class="container-fluid">
+      <ul>
+        <li><strong>Musically Miles</strong></li>
+      </ul>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="sign_up.html" role="button">Sign Up</a></li>
+      </ul>
+    </nav>
+    <main class="container">
+        <div class="grid">
+            <section>
+                <hgroup>
+                    <h2>Welcome</h2>
+                    <h3>Please Sign Up</h3>
+                </hgroup>
+                <form method="POST">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter email" required>
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required>
+                    <label for="password1">Password</label>
+                    <input type="password" id="password1" name="password1" placeholder="Enter password" required>
+                    <label for="password2">Password (Confirm)</label>
+                    <input type="password" id="password2" name="password2" placeholder="Confirm password" required>
+                    <button type="submit">Sign Up</button>
+                </form>
+            </section>
+        </div>
+    </main>
+    <footer class="container">
+      <small>&copy; 2023 Musically Miles. All rights reserved.</small>
+    </footer>
+    </body>
+    </html>
