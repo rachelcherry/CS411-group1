@@ -1,11 +1,19 @@
-<!doctype html>
-<html lang="en">
+{% extends "base.html" %} 
+
+{% block title %}Login{% endblock %} 
+{% block content %}
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
   <title>Musically Miles</title>
 </head>
+<style>
+  #map {
+      height: 400px;
+      width: 100%;
+  }
+</style>
 <body>
   <nav class="container-fluid">
     <ul>
@@ -18,7 +26,8 @@
     </ul>
   </nav>
   <main class="container">
-    <h2>Select a State to Find a Playlist</h2>
+
+    <h2>Find the most popular artist from each state:</h2>
     <form action="/playlist" method="POST" class="state-form" style="margin-top: 20px;">
       <select name="state" class="state-select">
           <!-- Options for states -->
@@ -78,6 +87,15 @@
     <input type="hidden" name="state" id="selectedState">
     <input type="submit" value="Submit" class="submit-btn">
   </form>
+    
+    <h2>Plan Your Road Trip</h2>
+    <form id="trip-form">
+      <input type="search" id="end" name="end" placeholder="Enter your destination..." required>
+      <br>
+      <button type="button" onclick="planRoadTrip()">Plan Road Trip</button>
+    </form>
+    <div id="results"></div>
+    <div id="map"></div>
 
     <script
     src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -100,38 +118,31 @@
     var selectElement = document.getElementById('states');
     selectElement.addEventListener('change', function() {
         var selectedState = selectElement.value;
-
         fetch(`/state-to-artist/${selectedState}`)
           .then(response => response.json())
           .then(data => {
               var artistName = data.artist_name;
-
               // fetch artist playlist
               fetch(`/artist-playlist/${artistName}`)
                 .then(response => response.json())
                 .then(data => {
                     var playlist = data;
-
                 // Get the container element
                 var container = document.getElementById('tracksContainer');
-
                 // Remove any existing child elements
                 while (container.firstChild) {
                     container.removeChild(container.firstChild);
                 }
-
                 // Create a new element for the playlist name and append it to the container
                 var playlistElement = document.createElement('p');
                 playlistElement.textContent = playlist.name;
                 container.appendChild(playlistElement);
-
                 // Create a new img element for the cover image and append it to the container
                 if (playlist.image_url) {
                     var imageElement = document.createElement('img');
                     imageElement.src = playlist.image_url;
                     container.appendChild(imageElement);
                 }
-
                 // Create a new a element for the play button and append it to the container
                 if (playlist.uri) {
                     var playButton = document.createElement('a');
@@ -143,33 +154,7 @@
             });
     });
   </script>
-  </body>
-</html>
 
-  </body>
-</html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plan Your Road Trip</title>
-  <style>
-      #map {
-          height: 400px;
-          width: 100%;
-      }
-  </style>
-</head>
-<body>
-  <h2>Plan Your Road Trip</h2>
-  <form id="trip-form">
-    <input type="search" id="end" name="end" placeholder="Enter your destination..." required>
-    <br>
-    <button type="button" onclick="planRoadTrip()">Plan Road Trip</button>
-</form>
-  <div id="results"></div>
-  <div id="map"></div>
-
-  <!-- Add the Google Maps API script -->
   <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}" async defer></script>
   
   <script>
@@ -187,6 +172,25 @@
           console.log("Geolocation is not supported by this browser.");
       }
     }
+
+    function getState(address, callback) {
+      var url = 'https://geocode.maps.co/search?q=' + encodeURIComponent(address);
+      fetch(url)
+          .then(response => response.json())
+          .then(data => {
+              var displayName = data[0].display_name;
+              var components = displayName.split(', ');
+              if (components[2]) {
+                  callback(components[2]);
+              } else {
+                  callback("State not found");
+              }
+          })
+          .catch(error => {
+              console.log('Error: ', error);
+              callback("Error: Unable to retrieve state");
+          });
+  }
   
     function planRoadTrip() {
       var endAddress = document.getElementById('end').value;
@@ -225,9 +229,23 @@
                 var resultsContainer = document.getElementById('results');
                 resultsContainer.innerHTML = 'Distance: ' + result.routes[0].legs[0].distance.text + '<br>';
                 resultsContainer.innerHTML += 'Duration: ' + result.routes[0].legs[0].duration.text;
+
+                getState(endAddress, function(state) {
+                  // Create a new button to fetch the playlist
+                  var playlistButton = document.createElement('button');
+                  playlistButton.textContent = 'Get Playlist for Destination';
+                  playlistButton.onclick = function() {
+                      // Set the state in the hidden input field
+                      document.getElementById('selectedState').value = state;
+  
+                      // Programmatically submit the form
+                      document.querySelector('.state-form').submit();
+                  };
+                  resultsContainer.appendChild(playlistButton);
+              });
             } else {
-                var resultsContainer = document.getElementById('results');
-                resultsContainer.innerHTML = 'Error: Unable to retrieve directions';
+              var resultsContainer = document.getElementById('results');
+              resultsContainer.innerHTML = 'Error: Unable to retrieve directions';
             }
         });
       });
@@ -238,4 +256,4 @@
   <small>&copy; 2023 Musically Miles. All rights reserved.</small>
 </footer>
 </body>
-</html>
+{% endblock %}
