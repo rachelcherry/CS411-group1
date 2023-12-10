@@ -1,40 +1,67 @@
-{% extends "base.html" %} 
-{% block additional_css %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login.css') }}">
-{% endblock %}
-{% block title %}Login{% endblock %} 
-{% block content %}
-    <form method="POST">
-      <h3 align="center">Login</h3>
-      <div class="form-group">
-        <label for="email">Email Address</label>
-        <input
-          type="email"
-          class="form-control"
-          id="email"
-          name="email"
-          placeholder="Enter email"
-        />
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input
-          type="password"
-          class="form-control"
-          id="password"
-          name="password"
-          placeholder="Enter password"
-        />
-      </div>
-      <br />
-      <button type="submit" class="btn btn-primary">Login</button>
-      <!-- Spotify OAuth button -->
-      <button type="button" class="btn btn-secondary" id="spotify-login" data-client-id="{{ SPOTIFY_CLIENT_ID }}">Login with Spotify</button>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Musically Miles Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            text-align: center;
+            padding: 50px;
+        }
+        .login-container {
+            margin: auto;
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .login-container h2 {
+            color: #000;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .login-button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #0044cc;
+            color: white;
+            cursor: pointer;
+        }
+        .login-footer {
+            font-size: 0.8em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Musically Miles Login</h2>
+        <form>
+            <input type="text" placeholder="MM login name" name="login">
+            <input type="password" placeholder="Password" name="password">
+            <button type="submit" class="login-button">Continue</button>
+            <button type="button" id="spotify-login" data-client-id="{{ SPOTIFY_CLIENT_ID }}" style="background-color: #1DB954; color: white; width: 100%; padding: 10px; border: none; border-radius: 4px; margin-top: 10px; cursor: pointer;">Login with Spotify</button>
 
-    <script>
-      document.getElementById('spotify-login').onclick = function () {
-        var clientId = this.getAttribute('data-client-id');
-        window.location.href = 'https://accounts.spotify.com/authorize?client_id=' + clientId + '&response_type=code&redirect_uri=http://127.0.0.1:5000/callback';
-      };
-    </script>
-{% endblock %}
+            <script>
+              document.getElementById('spotify-login').onclick = function () {
+                var clientId = this.getAttribute('data-client-id');
+                window.location.href = 'https://accounts.spotify.com/authorize?client_id=' + clientId + '&response_type=code&redirect_uri=http://127.0.0.1:5000/callback';
+              };
+            </script>
+        </form>
+        <div class="login-footer">
+            <p>You have asked to login to Musically Miles</p>
+            <p>Use of Musically Miles Computing Facilities is governed by our Acceptable Use Policy.</p>
+        </div>
+    </div>
+</body>
+</html>
