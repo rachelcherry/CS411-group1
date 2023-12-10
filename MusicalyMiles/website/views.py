@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, Flask, request, session, redirect
 from flask_login import login_required, current_user
-from .config import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
+from .config import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, GOOGLE_CLIENT_KEY
 from .singers import get_singer_by_state
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -11,7 +11,7 @@ views = Blueprint('views', __name__)
 @views.route('/')
 #@login_required
 def home():
-    return render_template("index.html", user=current_user, spotify_api_key=SPOTIFY_CLIENT_ID)
+    return render_template("index.html", user=current_user, spotify_api_key=SPOTIFY_CLIENT_ID, google_api_key=GOOGLE_CLIENT_KEY)
 
 @views.route('/login')
 def login():
