@@ -9,9 +9,9 @@ import requests
 views = Blueprint('views', __name__)
 
 @views.route('/')
-#@login_required
+@login_required
 def home():
-    return render_template("index.html", user=current_user, spotify_api_key=SPOTIFY_CLIENT_ID, google_api_key=GOOGLE_CLIENT_KEY)
+    return render_template("login.html", user=current_user, spotify_api_key=SPOTIFY_CLIENT_ID, google_api_key=GOOGLE_CLIENT_KEY)
 
 @views.route('/login')
 def login():
@@ -36,7 +36,7 @@ def callback():
     # Save the access token in the session
     session['access_token'] = access_token
     # Redirect the user to the index page
-    return redirect('/')
+    return render_template("index.html", user=current_user, spotify_api_key=SPOTIFY_CLIENT_ID, google_api_key=GOOGLE_CLIENT_KEY, access_token=access_token)
 
 @views.route('/playlist', methods=['POST'])
 def playlist():
