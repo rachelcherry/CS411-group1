@@ -3,8 +3,7 @@ pip install flask
 pip install flask-login
 pip install flask-sqlalchemy
 
-Video Link (part 1 and part 2): part 1: https://youtu.be/W3R98bPwfTg & part 2: https://youtu.be/Jvh8-1wbJkg
-Full Video Link (part 1 and 2 combined): https://www.youtube.com/watch?v=gSdg2P303wM&feature=youtu.be
+Video Link: https://www.youtube.com/watch?v=lteyQjY5GwE
 
 Explanation of Video and Process:
-We added a weather feature to our project to make use of another api. We submitted by the deadline, but we wanted to add this feature to ensure thoroughness, so the second video was added slightly after the deadline (but before the late deadline). We hope you enjoy!
+Our project is a great tool for a roadtrip. The user types in where they are going, and our program displays the route. From there based on the temperature of the location you are going to, it will generate a playlist to get you excited for the weather you are about to endure! For example if you go to Miami, the playlist will be warm vibes playlist from Spotify and if you are going to Massachusetts, it will gives you a cold vibes playlist from Spotify. We hope you enjoy!
