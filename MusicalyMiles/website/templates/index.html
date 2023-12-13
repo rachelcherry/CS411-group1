@@ -7,13 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
   <title>Musically Miles</title>
-</head>
-<style>
-  #map {
+  <style>
+    #map {
       height: 400px;
       width: 100%;
-  }
-</style>
+    }
+  </style>
+</head>
+
 <body>
   <nav class="container-fluid">
     <ul>
@@ -23,14 +24,12 @@
       <li><a class="outline" id="Log Out" role="button" href="/login">Log Out</a></li>
     </ul>
   </nav>
-  <main class="container">
 
+  <main class="container">
     <h2>Find the most popular artist from each state:</h2>
     <form action="/playlist" method="POST" class="state-form" style="margin-top: 20px;">
       <select name="state" class="state-select">
-          <!-- Options for states -->
-          <option value="">Select a state</option>
-          <option value="Alabama">Alabama</option>
+        <option value="Alabama">Alabama</option>
           <option value="Alaska">Alaska</option>
           <option value="Arizona">Arizona</option>
           <option value="Arkansas">Arkansas</option>
@@ -80,11 +79,13 @@
           <option value="West Virginia">West Virginia</option>
           <option value="Wisconsin">Wisconsin</option>
           <option value="Wyoming">Wyoming</option>
-      </div>
-    </div>
-    <input type="hidden" name="state" id="selectedState">
-    <input type="submit" value="Submit" class="submit-btn">
-  </form>
+        <!-- Options for states -->
+        <option value="">Select a state</option>
+        <!-- Add more states as needed -->
+      </select>
+      <input type="hidden" name="state" id="selectedState">
+      <input type="submit" value="Submit" class="submit-btn">
+    </form>
     
     <h2>Plan Your Road Trip</h2>
     <form id="trip-form">
@@ -94,42 +95,37 @@
     </form>
     <div id="results"></div>
     <div id="map"></div>
+    <div id="tracksContainer"></div> <!-- Container for playlist -->
 
-    <script
-    src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"
-  ></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 
-  <!--script to handle state selection and fetch corresponding artist-->
-  <script>
-    var selectElement = document.getElementById('states');
-    selectElement.addEventListener('change', function() {
+    <!-- Script to handle state selection and fetch corresponding artist -->
+    <script>
+      var selectElement = document.getElementById('states');
+      selectElement.addEventListener('change', function() {
         var selectedState = selectElement.value;
         fetch(`/state-to-artist/${selectedState}`)
           .then(response => response.json())
           .then(data => {
-              var artistName = data.artist_name;
-              // fetch artist playlist
-              fetch(`/artist-playlist/${artistName}`)
-                .then(response => response.json())
-                .then(data => {
-                    var playlist = data;
+            var artistName = data.artist_name;
+            // fetch artist playlist
+            fetch(`/artist-playlist/${artistName}`)
+              .then(response => response.json())
+              .then(data => {
+                var playlist = data;
                 // Get the container element
                 var container = document.getElementById('tracksContainer');
                 // Remove any existing child elements
                 while (container.firstChild) {
-                    container.removeChild(container.firstChild);
+                  container.removeChild(container.firstChild);
                 }
                 // Create a new element for the playlist name and append it to the container
                 var playlistElement = document.createElement('p');
@@ -137,121 +133,199 @@
                 container.appendChild(playlistElement);
                 // Create a new img element for the cover image and append it to the container
                 if (playlist.image_url) {
-                    var imageElement = document.createElement('img');
-                    imageElement.src = playlist.image_url;
-                    container.appendChild(imageElement);
+                  var imageElement = document.createElement('img');
+                  imageElement.src = playlist.image_url;
+                  container.appendChild(imageElement);
                 }
                 // Create a new a element for the play button and append it to the container
                 if (playlist.uri) {
-                    var playButton = document.createElement('a');
-                    playButton.href = `https://open.spotify.com/${playlist.uri}`;
-                    playButton.textContent = "Play";
-                    container.appendChild(playButton);
+                  var playButton = document.createElement('a');
+                  playButton.href = `https://open.spotify.com/${playlist.uri}`;
+                  playButton.textContent = "Play";
+                  container.appendChild(playButton);
                 }
               });
-            });
-    });
-  </script>
-
-  <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}" async defer></script>
-  
-  <script>
-    function getUserLocation(callback) {
-      if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-              var lat = position.coords.latitude;
-              var lon = position.coords.longitude;
-              var startAddress = {lat: lat, lng: lon};
-              callback(startAddress);
-          }, function(error) {
-              console.log("Error obtaining location: ", error);
           });
-      } else { 
-          console.log("Geolocation is not supported by this browser.");
-      }
-    }
+      });
+    </script>
 
-    function getState(address, callback) {
-      var url = 'https://geocode.maps.co/search?q=' + encodeURIComponent(address);
-      fetch(url)
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}" async defer></script>
+  
+    <script>
+      function getUserLocation(callback) {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            var startAddress = {lat: lat, lng: lon};
+            callback(startAddress);
+          }, function(error) {
+            console.log("Error obtaining location: ", error);
+          });
+        } else { 
+          console.log("Geolocation is not supported by this browser.");
+        }
+      }
+
+      function getState(address, callback) {
+        var url = 'https://geocode.maps.co/search?q=' + encodeURIComponent(address);
+        fetch(url)
           .then(response => response.json())
           .then(data => {
-              var displayName = data[0].display_name;
-              var components = displayName.split(', ');
-              if (components[2]) {
-                  callback(components[2]);
-              } else {
-                  callback("State not found");
-              }
+            var displayName = data[0].display_name;
+            var components = displayName.split(', ');
+            if (components[2]) {
+              callback(components[2]);
+            } else {
+              callback("State not found");
+            }
           })
           .catch(error => {
-              console.log('Error: ', error);
-              callback("Error: Unable to retrieve state");
+            console.log('Error: ', error);
+            callback("Error: Unable to retrieve state");
           });
-  }
-  
-    function planRoadTrip() {
-      var endAddress = document.getElementById('end').value;
-      if (!endAddress) {
+      }
+
+      function planRoadTrip() {
+        var endAddress = document.getElementById('end').value;
+        if (!endAddress) {
           console.log("No destination entered.");
           alert("Please enter a destination");
           return;
-      }
-  
-      console.log("Destination Address: ", endAddress);
-  
-      getUserLocation(function(startAddress) {
-        console.log("Planning road trip from: ", startAddress);
-  
-        var directionsService = new google.maps.DirectionsService();
-        var directionsRenderer = new google.maps.DirectionsRenderer();
-  
-        var map = new google.maps.Map(document.getElementById('map'), {
+        }
+
+        console.log("Destination Address: ", endAddress);
+
+        getUserLocation(function(startAddress) {
+          console.log("Planning road trip from: ", startAddress);
+
+          var directionsService = new google.maps.DirectionsService();
+          var directionsRenderer = new google.maps.DirectionsRenderer();
+
+          var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 8,
             center: { lat: 37.7749, lng: -122.4194 } // Default center (San Francisco, CA)
-        });
-  
-        directionsRenderer.setMap(map);
-  
-        var request = {
+          });
+
+          directionsRenderer.setMap(map);
+
+          var request = {
             origin: startAddress,
             destination: endAddress,
             travelMode: 'DRIVING'
-        };
-  
-        directionsService.route(request, function(result, status) {
-            if (status == 'OK') {
-                directionsRenderer.setDirections(result);
-  
-                // Display additional information about the route if needed
-                var resultsContainer = document.getElementById('results');
-                resultsContainer.innerHTML = 'Distance: ' + result.routes[0].legs[0].distance.text + '<br>';
-                resultsContainer.innerHTML += 'Duration: ' + result.routes[0].legs[0].duration.text;
+          };
 
-                getState(endAddress, function(state) {
-                  // Create a new button to fetch the playlist
-                  var playlistButton = document.createElement('button');
-                  playlistButton.textContent = 'Get Playlist for Destination';
-                  playlistButton.onclick = function() {
-                      // Set the state in the hidden input field
-                      document.getElementById('selectedState').value = state;
-  
-                      // Programmatically submit the form
-                      document.querySelector('.state-form').submit();
-                  };
-                  resultsContainer.appendChild(playlistButton);
+          directionsService.route(request, function(result, status) {
+            if (status == 'OK') {
+              directionsRenderer.setDirections(result);
+
+              // Display additional information about the route if needed
+              var resultsContainer = document.getElementById('results');
+              resultsContainer.innerHTML = 'Distance: ' + result.routes[0].legs[0].distance.text + '<br>';
+              resultsContainer.innerHTML += 'Duration: ' + result.routes[0].legs[0].duration.text;
+
+              getState(endAddress, function(state) {
+                // Create a new button to fetch the playlist
+                var playlistButton = document.createElement('button');
+                playlistButton.textContent = 'Get Playlist for Destination';
+                playlistButton.onclick = function() {
+                  // Set the state in the hidden input field
+                  document.getElementById('selectedState').value = state;
+
+                  // Programmatically submit the form
+                  document.querySelector('.state-form').submit();
+                }; 
+                resultsContainer.appendChild(playlistButton);
               });
             } else {
               var resultsContainer = document.getElementById('results');
               resultsContainer.innerHTML = 'Error: Unable to retrieve directions';
             }
+          });
         });
-      });
-    }
-  </script>
-</main>
-<footer class="container">
-  <small>&copy; 2023 Musically Miles. All rights reserved.</small>
-</footer>
+      }
+    </script>
+
+    <label for="state">Select a state:</label>
+    <select id="state">
+      <option value="Alabama">Alabama</option>
+          <option value="Alaska">Alaska</option>
+          <option value="Arizona">Arizona</option>
+          <option value="Arkansas">Arkansas</option>
+          <option value="California">California</option>
+          <option value="Colorado">Colorado</option>
+          <option value="Connecticut">Connecticut</option>
+          <option value="Delaware">Delaware</option>
+          <option value="Florida">Florida</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Hawaii">Hawaii</option>
+          <option value="Idaho">Idaho</option>
+          <option value="Illinois">Illinois</option>
+          <option value="Indiana">Indiana</option>
+          <option value="Iowa">Iowa</option>
+          <option value="Kansas">Kansas</option>
+          <option value="Kentucky">Kentucky</option>
+          <option value="Louisiana">Louisiana</option>
+          <option value="Maine">Maine</option>
+          <option value="Maryland">Maryland</option>
+          <option value="Massachusetts">Massachusetts</option>
+          <option value="Michigan">Michigan</option>
+          <option value="Minnesota">Minnesota</option>
+          <option value="Mississippi">Mississippi</option>
+          <option value="Missouri">Missouri</option>
+          <option value="Montana">Montana</option>
+          <option value="Nebraska">Nebraska</option>
+          <option value="Nevada">Nevada</option>
+          <option value="New Hampshire">New Hampshire</option>
+          <option value="New Jersey">New Jersey</option>
+          <option value="New Mexico">New Mexico</option>
+          <option value="New York">New York</option>
+          <option value="North Carolina">North Carolina</option>
+          <option value="North Dakota">North Dakota</option>
+          <option value="Ohio">Ohio</option>
+          <option value="Oklahoma">Oklahoma</option>
+          <option value="Oregon">Oregon</option>
+          <option value="Pennsylvania">Pennsylvania</option>
+          <option value="Rhode Island">Rhode Island</option>
+          <option value="South Carolina">South Carolina</option>
+          <option value="South Dakota">South Dakota</option>
+          <option value="Tennessee">Tennessee</option>
+          <option value="Texas">Texas</option>
+          <option value="Utah">Utah</option>
+          <option value="Vermont">Vermont</option>
+          <option value="Virginia">Virginia</option>
+          <option value="Washington">Washington</option>
+          <option value="West Virginia">West Virginia</option>
+          <option value="Wisconsin">Wisconsin</option>
+          <option value="Wyoming">Wyoming</option>
+      <!-- Add more states as needed -->
+    </select>
+    <button onclick="getWeather()">Generate Weather</button>
+    <div id="weather-info"></div>
+
+    <script>
+      function getWeather() {
+        const stateSelect = document.getElementById("state");
+        const selectedState = stateSelect.value;
+        const apiKey = '';
+
+        // Make a JSONP request to the OpenWeatherMap API
+        const script = document.createElement('script');
+        script.src = `https://api.openweathermap.org/data/2.5/weather?q=${selectedState}&appid=${apiKey}&units=metric&callback=handleResponse`;
+        document.body.appendChild(script);
+      }
+
+      // Handle the JSONP response
+      function handleResponse(data) {
+        const weatherInfo = document.getElementById("weather-info");
+        const temperature = data.main.temp;
+        weatherInfo.innerHTML = `<p>Temperature: ${temperature}&deg;C</p>`;
+      }
+    </script>
+  </main>
+
+  <footer class="container">
+    <small>&copy; 2023 Musically Miles. All rights reserved.</small>
+  </footer>
 </body>
 {% endblock %}
