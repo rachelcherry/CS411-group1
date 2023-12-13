@@ -1,28 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <title id="title"></title>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: calc(100vh - 100px);
-            margin: 0;
-            padding: 50px 0;
-            background-color: #f8f9fa;
-            font-family: Arial, Helvetica, sans-serif;
-            color: #333;
-            flex-direction: column;
-            position: relative;
-        }
-        #container {
-            display: flex;
-            flex-direction: column;
-            padding-bottom: 20px;
-            align-items: center;
-            width: 80%;
-        }
         iframe {
             width: 100%;
             height: 90vh;
@@ -45,11 +26,17 @@
         #backButton:focus {
             outline: none;
         }
-
     </style>
 </head>
 <body>
-    <a id="backButton" href="{{ url_for('views.home') }}">BACK</a>
+    <nav class="container-fluid">
+        <ul>
+          <li><strong>Musically Miles</strong></li>
+        </ul>
+        <ul>
+          <li><a class="outline" id="Log Out" role="button" href="/login">Log Out</a></li>
+        </ul>
+      </nav>
     <div id="container">
         <h1 id="header"></h1>
         <button id="savePlaylistButton">Save to Spotify</button>
