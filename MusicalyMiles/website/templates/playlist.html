@@ -52,8 +52,10 @@
     <a id="backButton" href="{{ url_for('views.home') }}">BACK</a>
     <div id="container">
         <h1 id="header"></h1>
+        <button id="savePlaylistButton">Save to Spotify</button>
         <iframe src="https://open.spotify.com/embed/playlist/{{ playlist.id }}" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     </div>
+        
 
     <script>
         var state = "{{ state }}";
@@ -79,6 +81,23 @@
         }
 
         window.onload = startTyping;
+
+        document.getElementById('savePlaylistButton').addEventListener('click', function() {
+            fetch('/save_playlist', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ playlistId: "{{ playlist.id }}" })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Playlist saved:', data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
     </script>
 </body>
 </html>

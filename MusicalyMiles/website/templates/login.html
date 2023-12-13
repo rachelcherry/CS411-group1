@@ -36,8 +36,7 @@
 
                 <script>
                   document.getElementById('spotify-login').onclick = function () {
-                    var clientId = this.getAttribute('data-client-id');
-                    window.location.href = 'https://accounts.spotify.com/authorize?client_id=' + clientId + '&response_type=code&redirect_uri=http://127.0.0.1:5000/callback';
+                    window.location.href = '/start_oauth'; // Redirect to start the OAuth process
                   };
                 </script>
             </section>
