@@ -23,10 +23,10 @@ def refresh_access_token(refresh_token):
             'grant_type': 'refresh_token',
             'refresh_token': refresh_token,
             'client_id': SPOTIFY_CLIENT_ID,
-            'client_secret': SPOTIFY_CLIENT_SECRET
         }
     )
     if response.status_code == 200:
+        current_app.logger.debug(f"toekn refreshed")
         return response.json().get('access_token')
     else:
         current_app.logger.error(f"Failed to refresh token: {response.status_code}, Response: {response.text}")
@@ -38,7 +38,7 @@ def store_access_token(response_json):
     expires_in = response_json.get('expires_in')  # Time in seconds until the token expires
 
     # Calculate the expiry time as a timestamp
-    expiry_time = datetime.datetime.now() + datetime.timedelta(seconds=expires_in)
+    expiry_time = datetime.datetime.now() + datetime.timedelta(expires_in)
 
     # Store the access token and expiry time in the session or a secure place
     session['access_token'] = access_token
