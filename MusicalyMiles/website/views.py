@@ -3,8 +3,6 @@ from flask import Blueprint, render_template, Flask, request, session, redirect,
 from flask_login import login_required, current_user
 from .config import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, GOOGLE_CLIENT_KEY, OPEN_WEATHER_KEY
 from .singers import get_singer_by_state
-import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
 import requests
 
 import base64
@@ -78,7 +76,7 @@ def start_oauth():
         'client_id': SPOTIFY_CLIENT_ID,
         'response_type': 'code',
         'redirect_uri': 'http://127.0.0.1:5000/callback',
-        'scope': 'user-read-private user-read-email playlist-modify-private',
+        'scope': 'playlist-modify-private',
         'code_challenge_method': 'S256',
         'code_challenge': challenge
     }
