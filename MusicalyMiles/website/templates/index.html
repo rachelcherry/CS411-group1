@@ -89,96 +89,89 @@
           });
       }
 
-      function getWeather(state) {
-        const apiKey = '{{open_weather_key}}'; // Replace with your actual API key variable
-      
-        // Make a JSONP request to the OpenWeatherMap API
-        const script = document.createElement('script');
-        script.src = `https://api.openweathermap.org/data/2.5/weather?q=${state}&appid=${apiKey}&units=metric&callback=handleResponse`;
-        document.body.appendChild(script);
-      }
-      
-      // Handle the JSONP response
-      function handleResponse(data) {
-        const resultsContainer = document.getElementById("results");
-        const temperature = data.main.temp;
-        resultsContainer.innerHTML += `<p>Temperature: ${temperature}&deg;C</p>`;
-      }
-      
+      var currentTemperature; // Global variable to store the current temperature
 
-      function planRoadTrip() {
-        var endAddress = document.getElementById('end').value;
-        if (!endAddress) {
+      function getWeather(city, callback) {
+        window.handleResponse = function(data) {
+            const resultsContainer = document.getElementById("results");
+            const temperature = data.main.temp;
+            resultsContainer.innerHTML += `<p>Temperature: ${temperature}&deg;C</p>`;
+            currentTemperature = temperature;  // Store the temperature
+            callback();  // Call the callback after setting the temperature
+        };
+    
+        const apiKey = '{{open_weather_key}}'; // Replace with your actual API key variable
+        const script = document.createElement('script');
+        script.src = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&callback=handleResponse`;
+        document.body.appendChild(script);
+    }
+    
+      
+    function planRoadTrip() {
+      var endAddress = document.getElementById('end').value;
+      if (!endAddress) {
           console.log("No destination entered.");
           alert("Please enter a destination");
           return;
-        }
-
-        console.log("Destination Address: ", endAddress);
-
-        getUserLocation(function(startAddress) {
+      }
+  
+      console.log("Destination Address: ", endAddress);
+  
+      getUserLocation(function(startAddress) {
           console.log("Planning road trip from: ", startAddress);
-
+  
           var directionsService = new google.maps.DirectionsService();
           var directionsRenderer = new google.maps.DirectionsRenderer();
-
+  
           var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 8,
-            center: { lat: 37.7749, lng: -122.4194 } // Default center (San Francisco, CA)
+              zoom: 8,
+              center: { lat: 37.7749, lng: -122.4194 } // Default center (San Francisco, CA)
           });
-
+  
           directionsRenderer.setMap(map);
-
+  
           var request = {
-            origin: startAddress,
-            destination: endAddress,
-            travelMode: 'DRIVING'
+              origin: startAddress,
+              destination: endAddress,
+              travelMode: 'DRIVING'
           };
-
+  
           directionsService.route(request, function(result, status) {
-            if (status == 'OK') {
-              directionsRenderer.setDirections(result);
-
-              // Display additional information about the route if needed
-              var resultsContainer = document.getElementById('results');
-              resultsContainer.innerHTML = 'Distance: ' + result.routes[0].legs[0].distance.text + '<br>';
-              resultsContainer.innerHTML += 'Duration: ' + result.routes[0].legs[0].duration.text;
-
-              getState(endAddress, function(state) {
-                getWeather(state);
-                
-                fetch('/process_state', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({ state: state })
-                })
-                .then(response => response.json())
-                .then(data => {
-                  // Create a button to go to the playlist route
-                  var playlistButton = document.createElement('button');
-                  playlistButton.textContent = 'View Playlist';
-                  playlistButton.onclick = function() {
-                    // Redirect to the playlist route
-                    window.location.href = '/playlist?state=' + encodeURIComponent(state);
-                  };
-              
-                  // Append the button to the new container
-                  var playlistButtonContainer = document.getElementById('playlistButtonContainer');
-                  playlistButtonContainer.appendChild(playlistButton);
-                })
-                .catch(error => {
-                  console.error('Error:', error);
-                });
-              });
-            } else {
-              var resultsContainer = document.getElementById('results');
-              resultsContainer.innerHTML = 'Error: Unable to retrieve directions';
-            }
+              if (status == 'OK') {
+                  directionsRenderer.setDirections(result);
+  
+                  var resultsContainer = document.getElementById('results');
+                  resultsContainer.innerHTML = 'Distance: ' + result.routes[0].legs[0].distance.text + '<br>';
+                  resultsContainer.innerHTML += 'Duration: ' + result.routes[0].legs[0].duration.text;
+  
+                  getWeather(endAddress, function() {
+                      fetch('/process_temp', {
+                          method: 'POST',
+                          headers: {
+                              'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify({ temp: currentTemperature })
+                      })
+                      .then(response => response.json())
+                      .then(data => {
+                          var playlistButton = document.createElement('button');
+                          playlistButton.textContent = 'View Playlist';
+                          playlistButton.onclick = function() {
+                              window.location.href = '/playlist?temp=' + encodeURIComponent(currentTemperature);
+                          };
+                          var playlistButtonContainer = document.getElementById('playlistButtonContainer');
+                          playlistButtonContainer.appendChild(playlistButton);
+                      })
+                      .catch(error => {
+                          console.error('Error:', error);
+                      });
+                  });
+              } else {
+                  resultsContainer.innerHTML = 'Error: Unable to retrieve directions';
+              }
           });
-        });
-      }
+      });
+  }
     </script>
   </main>
   <footer class="container">

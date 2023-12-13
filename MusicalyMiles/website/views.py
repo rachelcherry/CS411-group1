@@ -2,7 +2,7 @@ import datetime
 from flask import Blueprint, render_template, Flask, request, session, redirect, jsonify, current_app
 from flask_login import login_required, current_user
 from .config import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, GOOGLE_CLIENT_KEY, OPEN_WEATHER_KEY
-from .singers import get_singer_by_state
+from .singers import get_playlist_by_temperature
 import requests
 
 import base64
@@ -26,7 +26,7 @@ def refresh_access_token(refresh_token):
         }
     )
     if response.status_code == 200:
-        current_app.logger.debug(f"toekn refreshed")
+        current_app.logger.debug(f"token refreshed")
         return response.json().get('access_token')
     else:
         current_app.logger.error(f"Failed to refresh token: {response.status_code}, Response: {response.text}")
@@ -124,29 +124,27 @@ def callback():
     # Redirect the user to the index page
     return render_template("index.html", user=current_user, spotify_api_key=SPOTIFY_CLIENT_ID, google_api_key=GOOGLE_CLIENT_KEY, open_weather_key=OPEN_WEATHER_KEY)
 
-@views.route('/process_state', methods=['POST'])
-def process_state():
+@views.route('/process_temp', methods=['POST'])
+def process_temp():
     current_app.logger.debug("Received AJAX request")
     data = request.json
-    state = data['state']
-    current_app.logger.debug(f"State received: {state}")
-    data = request.json
-    state = data['state']
+    temp = data['temp']
+    current_app.logger.debug(f"Temp received: {temp}")
     
-    # Use singers.py to convert the state to Spotify ID
-    spotify_id = get_singer_by_state(state)
+    # Use singers.py to convert the temp to Spotify ID
+    spotify_id = get_playlist_by_temperature(temp)
     
     # You can then do further processing or return the Spotify ID
     return jsonify({'spotify_id': spotify_id})
 
 @views.route('/playlist', methods=['GET'])
 def playlist():
-    state = request.args.get('state')
+    temp = request.args.get('temp')
 
-    if not state:
-        return "State not provided", 400
+    if not temp:
+        return "temp not provided", 400
 
-    spotify_id = get_singer_by_state(state)
+    spotify_id = get_playlist_by_temperature(temp)
     current_app.logger.debug(f"spotify_id received: {spotify_id}")
 
     # Retrieve the access token from the session or another secure storage
@@ -173,7 +171,7 @@ def playlist():
 
     playlist_data = playlist_response.json()
 
-    return render_template('playlist.html', state=state, playlist=playlist_data)
+    return render_template('playlist.html', temp=temp, playlist=playlist_data)
 
 @views.route('/save_playlist', methods=['POST'])
 def save_playlist():

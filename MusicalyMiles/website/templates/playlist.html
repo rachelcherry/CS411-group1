@@ -1,30 +1,25 @@
+
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-    <title id="title"></title>
+    <title>Playlist - Musically Miles</title>
     <style>
         iframe {
             width: 100%;
-            height: 90vh;
+            height: 70vh;
+            border: none;
         }
-        #backButton {
-            position: absolute;
-            font-family: Arial, Helvetica, sans-serif;
-            color: #333;
-            text-decoration: none;
-            top: 30px;
-            left: 30px;
-        }
-        #backButton:visited {
-            color: #333;
-        }
-        #backButton:hover {
-            color: #4d4b4b;
-        }
-        #backButton:active,
-        #backButton:focus {
-            outline: none;
+        #savePlaylistButton {
+            background-color: #1DB954; 
+            color: white; 
+            border: none; 
+            cursor: pointer;
+            padding: 10px 20px;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -37,38 +32,17 @@
           <li><a class="outline" id="Back" role="button" href="/">Back</a></li>
         </ul>
       </nav>
-    <div id="container">
-        <h1 id="header"></h1>
-        <button id="savePlaylistButton">Save to Spotify</button>
-        <iframe src="https://open.spotify.com/embed/playlist/{{ playlist.id }}" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-    </div>
-        
-
+    <main class="container">
+            <section>
+                <h1>Welcome to Your Playlist</h1>
+                <iframe src="https://open.spotify.com/embed/playlist/{{ playlist.id }}" allowtransparency="true" allow="encrypted-media"></iframe>
+                <button id="savePlaylistButton">Save to Spotify</button>
+            </section>
+    </main>
+    <footer class="container">
+      <small>&copy; 2023 Musically Miles. All rights reserved.</small>
+    </footer>
     <script>
-        var state = "{{ state }}";
-        var titleElement = document.getElementById('title');
-        var headerElement = document.getElementById('header');
-
-        function typeWriter(text, i, fnCallback) {
-            if (i < (text.length)) {
-                fnCallback(text.substring(0, i+1));
-                setTimeout(function() {
-                    typeWriter(text, i + 1, fnCallback)
-                }, 50);
-            }
-        }
-
-        function startTyping() {
-            typeWriter("Welcome to " + state, 0, function(text) {
-                titleElement.innerHTML = text;
-            });
-            typeWriter("Our pick for " + state, 0, function(text) {
-                headerElement.innerHTML = text;
-            });
-        }
-
-        window.onload = startTyping;
-
         document.getElementById('savePlaylistButton').addEventListener('click', function() {
             fetch('/save_playlist', {
                 method: 'POST',
